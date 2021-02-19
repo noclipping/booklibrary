@@ -31,8 +31,9 @@ let submitButton = document.getElementById("button")
 submitButton.addEventListener("click",e=>{
 	let title = document.getElementById("title");
   let author = document.getElementById("author");
-  console.log(author.value);
-  console.log(title.value);
+  let pages = document.getElementById("pages");
+  let read = document.getElementById("read");
+  console.log(read.value)
 })
 
 
@@ -53,7 +54,11 @@ for(let book of library){
     let newRowData = document.createElement("td");
     newRowData.textContent=value;
     newRow.append(newRowData);
-    theTable.append(newRow);
   }
+  	let delButton = document.createElement("button")
+    delButton.classList.add("button")
+    delButton.textContent = "X"
+  	newRow.append(delButton)
+    theTable.append(newRow);
 }
 
