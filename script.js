@@ -33,7 +33,10 @@ submitButton.addEventListener("click",e=>{
   let author = document.getElementById("author");
   let pages = document.getElementById("pages");
   let read = document.getElementById("read");
-  console.log(read.value)
+  
+  
+  addBookToLibrary(title.value,author.value,pages.value,read.checked)
+  addTableRow(library[library.length-1])
 })
 
 
@@ -62,3 +65,17 @@ for(let book of library){
     theTable.append(newRow);
 }
 
+function addTableRow(book){
+let newRow = document.createElement("tr");
+		for (const[key,value] of Object.entries(book)){
+		
+    let newRowData = document.createElement("td");
+    newRowData.textContent=value;
+    newRow.append(newRowData);
+  }
+  	let delButton = document.createElement("button")
+    delButton.classList.add("button")
+    delButton.textContent = "X"
+  	newRow.append(delButton)
+    theTable.append(newRow);
+}
