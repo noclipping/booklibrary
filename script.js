@@ -20,11 +20,13 @@ function addBookToLibrary(title,author,pages,read){
 	library.push(newBook.tap());
 }
 
+// end book object
 
 let theTable = document.querySelector("table");
 
 
-let newbook = new Book("Call of C", "HP love", 234, false);
+
+
 
 let submitButton = document.getElementById("button")
 
@@ -37,36 +39,21 @@ submitButton.addEventListener("click",e=>{
   
   addBookToLibrary(title.value,author.value,pages.value,read.checked)
   addTableRow(library[library.length-1])
+  
 })
 
+// above: submit button
+// test stuff below 
+
+let newbook = new Book("Call of C", "HP love", 234, false);
 
 
-console.log(newbook.info());
-
-library.push(newbook.tap());
-
-console.log(library);
 
 
-for(let book of library){
-
-	let newRow = document.createElement("tr");
-  
-	for (const[key,value] of Object.entries(book)){
-		
-    let newRowData = document.createElement("td");
-    newRowData.textContent=value;
-    newRow.append(newRowData);
-  }
-  	let delButton = document.createElement("button")
-    delButton.classList.add("button")
-    delButton.textContent = "X"
-  	newRow.append(delButton)
-    theTable.append(newRow);
-}
 
 function addTableRow(book){
 let newRow = document.createElement("tr");
+		newRow.setAttribute("data-index", library.length);
 		for (const[key,value] of Object.entries(book)){
 		
     let newRowData = document.createElement("td");
@@ -74,8 +61,47 @@ let newRow = document.createElement("tr");
     newRow.append(newRowData);
   }
   	let delButton = document.createElement("button")
+    delButton.setAttribute("data-index",library.length);
     delButton.classList.add("button")
     delButton.textContent = "X"
   	newRow.append(delButton)
     theTable.append(newRow);
+   
+  	updateDeleteButtons();
 }
+
+
+function updateLibrary(){
+	
+  for(let book of library){
+  addTableRow(book);
+}
+}
+
+console.log(newbook.info());
+
+library.push(newbook.tap());
+
+console.log(library);
+
+updateLibrary();
+
+function updateDeleteButtons(){
+
+   let delButtons = document.querySelectorAll(".button")
+      console.log(delButtons.length)
+
+      delButtons.forEach(button => button.addEventListener("click", e=>{
+    let theRow = document.querySelector(`tr[data-index="${e.target.getAttribute('data-index')}"]`)
+    //console.log(e.target.getAttribute('data-index'));
+    if(theRow != null){theRow.remove()} 
+    // still trying to figure out why without an if statement causes error
+    library.splice(e.target.getAttribute('data-index')-1, 1);
+   
+  }))
+  
+}
+
+
+
+
