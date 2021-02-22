@@ -1,5 +1,10 @@
 library = []
 
+let  storedLibrary = JSON.parse(localStorage.getItem("savedLibrary"))
+
+if(storedLibrary){
+  library = storedLibrary
+}
 
 function Book(title,author,pages,read){
 	this.title = title
@@ -18,17 +23,14 @@ Book.prototype.tap = function(){
 function addBookToLibrary(title,author,pages,read){
 	let newBook= new Book(title, author, pages, read)
 	library.push(newBook.tap());
+  return(newBook.tap())
 }
 
 // end book object
 
 let theTable = document.querySelector("table");
-
-
-
-
-
 let submitButton = document.getElementById("button")
+
 
 submitButton.addEventListener("click",e=>{
 	let title = document.getElementById("title");
@@ -36,24 +38,28 @@ submitButton.addEventListener("click",e=>{
   let pages = document.getElementById("pages");
   let read = document.getElementById("read");
   
+  if(checkForDuplicate(title.value)){
+    console.log("DUPLICATE BOOK!")
+    let errorField = document.querySelector("#error")
+    errorField.style.color = 'red'
+    errorField.textContent="ERROR: Duplicate book title!"
+  } else{
+    let book=addBookToLibrary(title.value,author.value,pages.value,read.checked)
+     addTableRow(book)
+     let errorField = document.querySelector("#error")
+     errorField.textContent=""
+  }
+  saveLibrary();
   
-  addBookToLibrary(title.value,author.value,pages.value,read.checked)
-  addTableRow(library[library.length-1])
   
 })
 
-// above: submit button
-// test stuff below 
-
-let newbook = new Book("Call of C", "HP love", 234, false);
-
-
-
-
-
 function addTableRow(book){
+let theIndex = library.findIndex(e=> e.title === book.title)
+console.log(book)
+console.log(theIndex)
 let newRow = document.createElement("tr");
-		newRow.setAttribute("data-index", library.length);
+		newRow.setAttribute("data-index", theIndex);
 		for (const[key,value] of Object.entries(book)){
 		
     let newRowData = document.createElement("td");
@@ -61,47 +67,77 @@ let newRow = document.createElement("tr");
     newRow.append(newRowData);
   }
   	let delButton = document.createElement("button")
-    delButton.setAttribute("data-index",library.length);
+    delButton.setAttribute("data-index",theIndex);
     delButton.classList.add("button")
     delButton.textContent = "X"
   	newRow.append(delButton)
+    
+    // END DEL BUTTON DOM CREATION, NEW CODE BELOW
+    let readButton = document.createElement("readButton");
+    readButton.setAttribute("data-index",theIndex);
+    readButton.classList.add("read")
+    readButton.textContent = "___";
+    
+    newRow.append(readButton);
+
     theTable.append(newRow);
-   
-  	updateDeleteButtons();
+
+    DelListener(delButton,theIndex);
+
+    ReadListener(readButton,theIndex);
+  	
 }
 
-
 function updateLibrary(){
-	
+  
   for(let book of library){
+  if(book === "empty"){continue}
   addTableRow(book);
 }
 }
 
-console.log(newbook.info());
+function DelListener(button,bkindex){
+  button.addEventListener("click", e=>{
 
-library.push(newbook.tap());
-
-console.log(library);
-
-updateLibrary();
-
-function updateDeleteButtons(){
-
-   let delButtons = document.querySelectorAll(".button")
-      console.log(delButtons.length)
-
-      delButtons.forEach(button => button.addEventListener("click", e=>{
     let theRow = document.querySelector(`tr[data-index="${e.target.getAttribute('data-index')}"]`)
-    //console.log(e.target.getAttribute('data-index'));
-    if(theRow != null){theRow.remove()} 
-    // still trying to figure out why without an if statement causes error
-    library.splice(e.target.getAttribute('data-index')-1, 1);
-   
-  }))
-  
+
+    if(theRow != null){theRow.remove()}
+
+    library.splice(bkindex, 1, "empty");
+    saveLibrary();
+  })
+}
+
+function ReadListener(button,bkindex){
+  button.addEventListener("click", e=>{
+    let bookindex = bkindex
+    let theRow = document.querySelector(`tr[data-index="${e.target.getAttribute('data-index')}"]`)
+    let readDOM = theRow.lastElementChild.previousElementSibling.previousElementSibling;
+    if(library[bookindex].read === false){
+    readDOM.textContent = true;
+    library[bookindex].read = true;
+    } else {
+    readDOM.textContent = false;
+    library[bookindex].read = false;
+    }
+    saveLibrary();
+    
+  })
+}
+function checkForDuplicate(newTitle){
+  for(let book of library){
+    if(book.title === newTitle){
+      return true
+    } 
+  }
+}
+function saveLibrary(){
+  localStorage.setItem('savedLibrary', JSON.stringify(library)); 
 }
 
 
+console.log(library);
 
+
+updateLibrary();
 

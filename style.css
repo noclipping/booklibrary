@@ -16,7 +16,7 @@ tr:nth-child(even) {
 form {
   position: absolute;
   left: 70%;
-  top: 0px;
+  top: auto;
 }
 .button {
   background-color: red;
@@ -31,4 +31,22 @@ form {
 }
 body{
   background-color: lightgray;
+}
+
+.read {
+  background-color: blue;
+  border-color:blue;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 7px 0px 0px 5px;
+  cursor: pointer;
+}
+
+header {
+  background-color:gray;
+  color: white;
+  font-size:50px;
 }
