@@ -5,21 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Ubuntu:wght@300&display=swap" rel="stylesheet">
     <title>Document</title>
 </head>
 <body>
-    <header>Book Library</header>
+    <header id="header">📚 Book Library </header>
 
     <form>     
         <label for="title">Title:</label><br>
-        <input type="text" id="title" name="title" value="Epic of Gilgamesh"><br>
+        <input type="text" id="title" name="title" placeholder="Epic of Gilgamesh"><br>
         <label for="author">Author:</label><br>
-        <input type="text" id="author" name="author" value="Some Guy"><br>
+        <input type="text" id="author" name="author" placeholder="Some Guy"><br>
         <label for="pages">Pages:</label><br>
-        <input type="text" id="pages" name="pages" value="0"><br>
+        <input type="text" id="pages" name="pages" placeholder="0"><br>
         <label for="read">I read this book </label>
         <input type="checkbox" id="read"><br>
-        <input id="button" type="button" value="Submit">
+        <input id="button" type="button" value="SUBMIT">
         <p id="error"></p>
 </form>
 
@@ -35,3 +37,4 @@
 </body>
 <script src="script.js"></script>
 </html>
+

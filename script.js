@@ -1,5 +1,22 @@
 library = []
 
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
+let randomBook = () =>{
+  let randomNum = getRandomInt(4)
+  if(randomNum === 0){
+    return '📕';
+  } else if(randomNum === 1){
+    return '📗';
+  } else if(randomNum === 2){
+    return '📘';
+  } else if(randomNum === 3){
+    return '📙';
+  }
+}
+
 let  storedLibrary = JSON.parse(localStorage.getItem("savedLibrary"))
 
 if(storedLibrary){
@@ -38,6 +55,8 @@ submitButton.addEventListener("click",e=>{
   let pages = document.getElementById("pages");
   let read = document.getElementById("read");
   
+  
+  
   if(checkForDuplicate(title.value)){
     console.log("DUPLICATE BOOK!")
     let errorField = document.querySelector("#error")
@@ -69,14 +88,15 @@ let newRow = document.createElement("tr");
   	let delButton = document.createElement("button")
     delButton.setAttribute("data-index",theIndex);
     delButton.classList.add("button")
-    delButton.textContent = "X"
+    delButton.textContent = "❌"
   	newRow.append(delButton)
     
     // END DEL BUTTON DOM CREATION, NEW CODE BELOW
-    let readButton = document.createElement("readButton");
+    let readButton = document.createElement("button");
     readButton.setAttribute("data-index",theIndex);
     readButton.classList.add("read")
-    readButton.textContent = "___";
+    readButton.style.color="green"
+    readButton.textContent = "✔";
     
     newRow.append(readButton);
 
@@ -85,6 +105,8 @@ let newRow = document.createElement("tr");
     DelListener(delButton,theIndex);
 
     ReadListener(readButton,theIndex);
+
+    header.textContent+=randomBook();
   	
 }
 
@@ -98,12 +120,19 @@ function updateLibrary(){
 
 function DelListener(button,bkindex){
   button.addEventListener("click", e=>{
-
+    let header = document.querySelector("#header")
     let theRow = document.querySelector(`tr[data-index="${e.target.getAttribute('data-index')}"]`)
 
     if(theRow != null){theRow.remove()}
 
     library.splice(bkindex, 1, "empty");
+
+    let arry = header.textContent.split("")
+    console.log(arry)
+    arry.splice(-2,2)
+    console.log(arry)
+    let finish = arry.join("")
+    header.textContent=finish;
     saveLibrary();
   })
 }

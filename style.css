@@ -1,3 +1,11 @@
+
+
+* {
+  font-family: 'Ubuntu', sans-serif;
+       
+}
+
+
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
@@ -5,48 +13,35 @@ table {
 }
 
 td, th {
+  color: white;
   border: 1px solid #dddddd;
   text-align: left;
   padding: 8px;
 }
 
 tr:nth-child(even) {
-  background-color: #dddddd;
+  background-color: #353535;
 }
 form {
+  color: white;
   position: absolute;
   left: 70%;
   top: auto;
 }
-.button {
-  background-color: red;
-  border: none;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 7px 0px 0px 0px;
-  cursor: pointer;
+button {
+  background-color: rgb(172, 172, 172);
 }
 body{
+  background-color: rgb(29, 29, 29)
+  
+}
+input{
   background-color: lightgray;
 }
 
-.read {
-  background-color: blue;
-  border-color:blue;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 7px 0px 0px 5px;
-  cursor: pointer;
-}
-
 header {
-  background-color:gray;
+  font-family: 'Bebas Neue', cursive;
+  background-color:rgb(43, 43, 43);
   color: white;
   font-size:50px;
 }
