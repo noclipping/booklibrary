@@ -1,5 +1,7 @@
 library = []
 
+let booksDOM = document.querySelector("#books")
+
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
@@ -82,7 +84,17 @@ let newRow = document.createElement("tr");
 		for (const[key,value] of Object.entries(book)){
 		
     let newRowData = document.createElement("td");
+    console.log(newRowData.textContent)
+    
     newRowData.textContent=value;
+    if (value === true){
+      newRowData.classList.add("hasRead")
+      newRowData.textContent = "yes"
+      
+    } else if (value === false){
+      newRowData.classList.add("notRead")
+      newRowData.textContent = "no"
+    }
     newRow.append(newRowData);
   }
   	let delButton = document.createElement("button")
@@ -106,7 +118,7 @@ let newRow = document.createElement("tr");
 
     ReadListener(readButton,theIndex);
 
-    header.textContent+=randomBook();
+    booksDOM.textContent+=randomBook();
   	
 }
 
@@ -127,12 +139,12 @@ function DelListener(button,bkindex){
 
     library.splice(bkindex, 1, "empty");
 
-    let arry = header.textContent.split("")
+    let arry = booksDOM.textContent.split("")
     console.log(arry)
     arry.splice(-2,2)
     console.log(arry)
     let finish = arry.join("")
-    header.textContent=finish;
+    booksDOM.textContent=finish;
     saveLibrary();
   })
 }
@@ -143,10 +155,15 @@ function ReadListener(button,bkindex){
     let theRow = document.querySelector(`tr[data-index="${e.target.getAttribute('data-index')}"]`)
     let readDOM = theRow.lastElementChild.previousElementSibling.previousElementSibling;
     if(library[bookindex].read === false){
-    readDOM.textContent = true;
+    readDOM.textContent = "yes";
+    readDOM.classList.add("hasRead")
+    readDOM.classList.remove("notRead")
+    
     library[bookindex].read = true;
     } else {
-    readDOM.textContent = false;
+    readDOM.textContent = "no";
+    readDOM.classList.add("notRead")
+    readDOM.classList.remove("hasRead")
     library[bookindex].read = false;
     }
     saveLibrary();
